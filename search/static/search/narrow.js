@@ -22,15 +22,9 @@ $(function(){
 
             var modelOptions = '';
 
-            // Remove red borders if Go button put them.
-            notSelected($make, $model);
-
+            notSelected($make, $model); // Remove red borders.
             startLoad($go, $loading);
-
-            // Close the other boxes while loading.
-            $model.prop('disabled', true);
-            $year.prop('disabled', true);
-            $trim.prop('disabled', true);
+            tempClose($model, $year, $trim); // Close while loading.
 
             $.ajax({
                 url: modelUrl,
@@ -42,15 +36,8 @@ $(function(){
                         modelOptions += '<option value="' + models[i].niceName + '">' + models[i].name + '</option>';
                     }
 
-                    $model.html('<option value="empty"></option>' + modelOptions);
-                    $model.animate({
-                        opacity: 1
-                    }, 350);
-                    $model.attr('disabled', false); // Open models.
-                    $year.html('<option value="empty"></option>'); // Reset years.
-                    $year.attr('disabled', true); // Close years.
-                    $trim.html('<option value="empty"></option>'); // Reset trims.
-                    $trim.attr('disabled', true); // Close trims.
+                    fillAndOpen(modelOptions, $model);
+                    resetAndClose($year, $trim);
                 },
                 error: function(request, textStatus, errorThrown){
                     alert(errorThrown);
@@ -59,22 +46,7 @@ $(function(){
 
         }else{
 
-            // If empty is selected close the other boxes.
-			$model.html('<option value="empty"></option>');
-			$year.html('<option value="empty"></option>');
-            $trim.html('<option value="empty"></option>');
-			$model.animate({
-				opacity: 0.3
-			}, 350);
-			$year.animate({
-				opacity: 0.3
-			}, 350);
-            $trim.animate({
-				opacity: 0.3
-			}, 350);
-			$model.attr('disabled', true);
-			$year.attr('disabled', true);
-            $trim.attr('disabled', true);
+            resetAndClose($model, $year, $trim);
 		}
 
     }
@@ -89,15 +61,9 @@ $(function(){
             // What will be used to hold the <option> html.
             var yearOptions = '';
 
-            // Remove red borders if go button put them.
             notSelected($model, $year);
-
-            // Load until successful asynch call.
             startLoad($go, $loading);
-
-            // Close other boxes while loading.
-            $year.prop('disabled', true);
-            $trim.prop('disabled', true);
+            tempClose($year, $trim);
 
             $.ajax({
                 url: yearUrl,
@@ -109,13 +75,8 @@ $(function(){
                         yearOptions += '<option value="' + years[i].year + '">' + years[i].year + '</option>';
                     }
 
-                    $year.html('<option value="empty"></option>' + yearOptions);
-                    $year.animate({
-                        opacity: 1
-                    }, 350);
-                    $year.attr('disabled', false); // Open years.
-                    $trim.html('<option value="empty"></option>'); // Reset trims.
-                    $trim.attr('disabled', true); // Close trims.
+                    fillAndOpen(yearOptions, $year);
+                    resetAndClose($trim);
                 },
                 error: function(request, textStatus, errorThrown){
                     alert(errorThrown);
@@ -124,17 +85,7 @@ $(function(){
             });
         }else{
 
-            // If empty is selected close the other boxes.
-            $trim.html('<option value="empty"></option>');
-            $trim.animate({
-                opacity: 0.3
-            }, 350);
-            $trim.attr('disabled', true);
-            $year.html('<option value="empty"></option>');
-            $year.animate({
-                opacity: 0.3
-            }, 350);
-            $year.attr('disabled', true);
+            resetAndClose($trim, $year);
         }
     }
 
@@ -148,14 +99,9 @@ $(function(){
             // What will be used to hold <option> html.
             var trimOptions = '';
 
-            // Remove red borders.
             notSelected($model, $year, $trim);
-
-            // Load until successful asynch call.
             startLoad($go, $loading);
-
-            // Close while loading.
-            $trim.prop('disabled', true);
+            tempClose($trim);
 
             $.ajax({
                 url: trimUrl,
@@ -166,11 +112,8 @@ $(function(){
                     for(i=0; i<trims.length; i++){
                         trimOptions += '<option value="' + trims[i].id + '">' + trims[i].name + '</option>';
                     }
-                    $trim.html('<option value="empty"></option>' + trimOptions);
-                    $trim.animate({
-                        opacity: 1
-                    }, 350);
-                    $trim.attr('disabled', false); // Open trims.
+
+                    fillAndOpen(trimOptions, $trim);
                 },
                 error: function(request, textStatus, errorThrown){
                     alert(errorThrown);
@@ -179,11 +122,7 @@ $(function(){
         }else{
 
             // If empty is selected close the other box.
-            $trim.html('<option value="empty"></option>');
-            $trim.animate({
-                opacity: 0.3
-            }, 350);
-            $trim.attr('disabled', true);
+            resetAndClose($trim);
         }
     }
 
@@ -197,6 +136,30 @@ var notSelected = function(){
     for(var i=0; i<arguments.length; i++){
         arguments[i].removeClass('notSelected');
     }
+}
+
+var tempClose = function(){
+    for(var i=0; i<arguments.length; i++){
+        arguments[i].prop('disabled', true);
+    }
+}
+
+var resetAndClose = function(){
+    for(var i=0; i<arguments.length; i++){
+        arguments[i].html('<option value="empty"></option>');
+        arguments[i].animate({
+            opacity: 0.3
+        }, 350);
+        arguments[i].attr('disabled', true);
+    }
+}
+
+function fillAndOpen(options, element){
+    element.html('<option value="empty"></option>' + options);
+    element.animate({
+        opacity: 1
+    }, 350);
+    element.attr('disabled', false);
 }
 
 function startLoad(go, loading){
