@@ -20,16 +20,12 @@ $(function(){
         // Make asynch call if a make is selected.
         if($selectedMake != 'empty'){
 
-            // What will be used to hold the <option> html.
             var modelOptions = '';
 
             // Remove red borders if Go button put them.
-            $make.removeClass('notSelected');
-            $model.removeClass('notSelected');
+            notSelected($make, $model);
 
-            // Load until asynch call is successful.
-            $go.hide();
-            $loading.show();
+            startLoad($go, $loading);
 
             // Close the other boxes while loading.
             $model.prop('disabled', true);
@@ -40,9 +36,7 @@ $(function(){
                 url: modelUrl,
                 success: function(models){
 
-                    // Stop loading.
-                    $loading.hide();
-                    $go.show();
+                    stopLoad($go, $loading);
 
                     for(i=0; i<models.length; i++){
                         modelOptions += '<option value="' + models[i].niceName + '">' + models[i].name + '</option>';
@@ -96,12 +90,10 @@ $(function(){
             var yearOptions = '';
 
             // Remove red borders if go button put them.
-            $model.removeClass('notSelected');
-            $year.removeClass('notSelected');
+            notSelected($model, $year);
 
             // Load until successful asynch call.
-            $go.hide();
-            $loading.show();
+            startLoad($go, $loading);
 
             // Close other boxes while loading.
             $year.prop('disabled', true);
@@ -111,9 +103,7 @@ $(function(){
                 url: yearUrl,
                 success: function(years){
 
-                    // Stop loading.
-                    $loading.hide();
-                    $go.show();
+                    stopLoad($go, $loading);
 
                     for(i=0; i<years.length; i++){
                         yearOptions += '<option value="' + years[i].year + '">' + years[i].year + '</option>';
@@ -159,13 +149,10 @@ $(function(){
             var trimOptions = '';
 
             // Remove red borders.
-            $model.removeClass('notSelected');
-            $year.removeClass('notSelected');
-            $trim.removeClass('notSelected');
+            notSelected($model, $year, $trim);
 
             // Load until successful asynch call.
-            $go.hide();
-            $loading.show();
+            startLoad($go, $loading);
 
             // Close while loading.
             $trim.prop('disabled', true);
@@ -174,8 +161,7 @@ $(function(){
                 url: trimUrl,
                 success: function(trims){
 
-                    $loading.hide();
-                    $go.show();
+                    stopLoad($go, $loading);
 
                     for(i=0; i<trims.length; i++){
                         trimOptions += '<option value="' + trims[i].id + '">' + trims[i].name + '</option>';
@@ -206,3 +192,19 @@ $(function(){
     $year.change(openTrim);
 
 });
+
+var notSelected = function(){
+    for(var i=0; i<arguments.length; i++){
+        arguments[i].removeClass('notSelected');
+    }
+}
+
+function startLoad(go, loading){
+    go.hide();
+    loading.show();
+}
+
+function stopLoad(go, loading){
+    loading.hide();
+    go.show();
+}
