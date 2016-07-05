@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Spec Race</title>
+
+	{% load staticfiles %}
+	<link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css'/>
+	<link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+	<link rel="shortcut icon" type="image/png" href="{% static 'search/images/favicon.ico' %}" />
+	<link rel="stylesheet" type="text/css" href="{% static 'search/index.css' %}" />
+
+</head>
+
+<body>
+	<div id="head">
+		<div id="logo">
+			<a href='/'><em id="spec">Spec</em> <em id="race">Race</em></a>
+		</div>
+		<div id="edmundsLogo">
+			<img src="{% static "search/images/edmundslogo.png" %}"/>
+		</div>
+	</div>
+
+	<div id="searchDiv">
+		<form action="{% url 'search:search' %}" class="form-inline" id="dropdownText">
+			<div class="form-group" id="dropdownGroup">
+
+				<span style="display:inline-block" class="selectBox">
+					<select class="form-control" id="make">
+						<option value='empty'></option>
+						{% for make in allMakes %}
+						<option value="{{ make.niceName }}">{{ make.name }}</option>
+						{% endfor %}
+					</select>
+					<label for="make" style="display:block">Make</label>
+				</span>
+
+				<span style="display:inline-block" class="selectBox">
+					<select class="form-control" id="model" disabled>
+						<!-- List each make's model's name with JQ. -->
+					</select>
+					<label for="model" style="display:block">Model</label>
+				</span>
+
+				<span style="display:inline-block" class="selectBox">
+					<select class="form-control" id="year" disabled>
+						<!-- List each make's model's name with JQ. -->
+					</select>
+					<label for="year" style="display:block">Year</label>
+				</span>
+
+				<span style="display:inline-block" class="selectBox">
+					<select class="form-control" id="trim" name="selectedTrim" disabled>
+						<!-- List all trims for each make/model with JQ. -->
+					</select>
+					<label for="trim" style="display:block">Trim</label>
+				</span>
+
+			</div>
+			<div class="text-center">
+				<button type="submit" class="btn btn-default" id="go">GO!</button>
+				<h1 id="loading">Loading ...</h1>
+			</div>
+		</form>
+	</div>
+
+<script src="{% static 'search/narrow.js' %}"></script>
+<script src="{% static 'search/checkBoxes.js' %}"></script>
+</body>
+
+</html>
