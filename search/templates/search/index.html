@@ -32,7 +32,7 @@
 			<div class="form-group" id="dropdownGroup">
 
 				<span style="display:inline-block" class="selectBox">
-					<select class="form-control" id="make">
+					<select class="form-control" id="make" name="make">
 						<option value='empty'></option>
 						{% for make in allMakes %}
 						<option value="{{ make.niceName }}">{{ make.name }}</option>
@@ -42,21 +42,21 @@
 				</span>
 
 				<span style="display:inline-block" class="selectBox">
-					<select class="form-control" id="model" disabled>
+					<select class="form-control" id="model" name="model" disabled>
 						<!-- List each make's model's name with JQ. -->
 					</select>
 					<label for="model" style="display:block">Model</label>
 				</span>
 
 				<span style="display:inline-block" class="selectBox">
-					<select class="form-control" id="year" disabled>
+					<select class="form-control" id="year" name="year" disabled>
 						<!-- List each make's model's name with JQ. -->
 					</select>
 					<label for="year" style="display:block">Year</label>
 				</span>
 
 				<span style="display:inline-block" class="selectBox">
-					<select class="form-control" id="trim" name="selectedTrim" disabled>
+					<select class="form-control" id="trim" name="trim" disabled>
 						<!-- List all trims for each make/model with JQ. -->
 					</select>
 					<label for="trim" style="display:block">Trim</label>

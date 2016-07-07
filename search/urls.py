@@ -9,7 +9,10 @@ urlpatterns = [
 	url(r'^$', views.index, name='index'),
 
 	# /search, render the template for a car.
-	url(r'^search/', views.search, name='search'),
+	url(r'^specs/', views.search, name='search'),
+
+	# Render the specifications page.
+	#url(r'^(?P<name>[a-zA-Z0-9_.-]+)/', views.showSpecs, name='showSpecs'),
 
 	# Uses Ajax/JSON to change the model/year/trim boxes.
 	url(r'^getmodels/(?P<make>[a-zA-Z0-9_.-]+)/', views.getModels, name='getmodels'),

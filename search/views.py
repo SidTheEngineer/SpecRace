@@ -44,7 +44,7 @@ def getModels(request, make):
 		jsonObjects = r.json()
 		cache.set(url, jsonObjects)
 		models = jsonObjects['models']
-		
+
 	else:
 		models = cached['models']
 
@@ -82,7 +82,7 @@ def getTrims(request, make, model, year):
 def search(request):
 
 	try:
-		trimId = request.GET['selectedTrim']
+		trimId = request.GET['trim']
 		specUrl = settings.VEHICLE_URL + 'styles/' + trimId + settings.FULL_ENDING
 		equipmentUrl = settings.VEHICLE_URL + 'styles/' + trimId + settings.EQUIPMENT_ENDING
 		cachedSpecs = cache.get(specUrl)
