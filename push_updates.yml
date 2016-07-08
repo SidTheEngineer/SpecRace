@@ -13,10 +13,8 @@
           - restart nginx
       handlers:
         - name: restart gunicorn
-          service:
-            name: gunicorn
-            state: restarted
+          service: name=gunicorn state=restarted
+          become: true
         - name: restart nginx
-          service:
-            name: nginx
-            state: restarted
+          service: name=nginx state=restarted
+          become: true
