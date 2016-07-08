@@ -1,0 +1,10 @@
+---
+    - hosts: webservers
+      remote_user: sid
+      tasks:
+        - name: Test connection.
+          ping:
+        - name: Push Github updates.
+          git: repo=ssh://git@github.com/sidp0/specrace.git
+               dest=/home/sid/specrace/mysite
+               force=yes
