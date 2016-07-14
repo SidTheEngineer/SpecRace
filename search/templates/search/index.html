@@ -26,51 +26,30 @@
 			<img src="{% static "search/images/edmundslogo.png" %}"/>
 		</div>
 	</div>
-
-	<div id="searchDiv">
-		<form action="{% url 'search:search' %}" class="form-inline" id="dropdownText">
-			<div class="form-group" id="dropdownGroup">
-
-				<span style="display:inline-block" class="selectBox">
-					<select class="form-control" id="make" name="make">
-						<option value='empty'></option>
-						{% for make in allMakes %}
-						<option value="{{ make.niceName }}">{{ make.name }}</option>
-						{% endfor %}
-					</select>
-					<label for="make" style="display:block">Make</label>
-				</span>
-
-				<span style="display:inline-block" class="selectBox">
-					<select class="form-control" id="model" name="model" disabled>
-						<!-- List each make's model's name with JQ. -->
-					</select>
-					<label for="model" style="display:block">Model</label>
-				</span>
-
-				<span style="display:inline-block" class="selectBox">
-					<select class="form-control" id="year" name="year" disabled>
-						<!-- List each make's model's name with JQ. -->
-					</select>
-					<label for="year" style="display:block">Year</label>
-				</span>
-
-				<span style="display:inline-block" class="selectBox">
-					<select class="form-control" id="trim" name="trim" disabled>
-						<!-- List all trims for each make/model with JQ. -->
-					</select>
-					<label for="trim" style="display:block">Trim</label>
-				</span>
-
+	<div id="middle" class="container">
+		<div class="row">
+			<div id="gridDiv" class="col-xs-12">
+				<div id="makeGrid" class="row">
+					{% for make in allMakes %}
+						<div id="makeDiv" class="col-xs-4 col-sm-3 col-md-2">
+							<button class="makeButton" type="submit" value="{{ make.niceName }}">{{ make.name }}</button>
+						</div>
+					{% endfor %}
+				</div>
+				<div id="modelGrid" class="row">
+					<!-- List model buttons here with JS. -->
+				</div>
 			</div>
-			<div class="text-center">
-				<button type="submit" class="btn btn-default" id="go">GO!</button>
-				<h1 id="loading">Loading ...</h1>
+			<div id="loading">
+				<p>Loading ...</p>
 			</div>
-		</form>
+		</div>
+	</div>
+	<div id=foot>
+
 	</div>
 
-<script src="{% static 'search/narrow.js' %}"></script>
+<script src="{% static 'search/narrow2.js' %}"></script>
 <script src="{% static 'search/checkBoxes.js' %}"></script>
 </body>
 

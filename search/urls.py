@@ -11,9 +11,6 @@ urlpatterns = [
 	# /search, render the template for a car.
 	url(r'^specs/', views.search, name='search'),
 
-	# Render the specifications page.
-	#url(r'^(?P<name>[a-zA-Z0-9_.-]+)/', views.showSpecs, name='showSpecs'),
-
 	# Uses Ajax/JSON to change the model/year/trim boxes.
 	url(r'^getmodels/(?P<make>[a-zA-Z0-9_.-]+)/', views.getModels, name='getmodels'),
 	url(r'^getyears/(?P<make>[a-zA-Z0-9_.-]+)/(?P<model>[a-zA-Z0-9_.-]+)/', views.getYears, name='getyears'),
