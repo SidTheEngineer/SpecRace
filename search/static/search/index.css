@@ -85,7 +85,7 @@ button:hover, button:active, button:focus {
 	text-shadow: 7px 7px 10px black;
 }
 
-#makeGrid, #modelGrid{
+#makeGrid, #modelGrid, #yearGrid, #trimGrid{
 	padding-top: 18em;
 	margin-bottom: 40px;
 }

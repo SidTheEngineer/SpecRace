@@ -1,19 +1,20 @@
 $(function(){
 
     var $gridDiv = $('#gridDiv')
-    var $makeGrid = $('#makeGrid');
-    var $modelGrid = $('#modelGrid');
-    var $makeDiv = $('#makeDiv');
-    var $modelDiv = $('.modelDiv');
+    var $makeGrid = $('#makeGrid'), $modelGrid = $('#modelGrid');
+    var $yearGrid = $('#yearGrid'), $trimGrid = $('#trimGrid');
     var $loading = $('#loading');
     var $makeButton = $('.makeButton');
     var $modelButton = $('.modelButton');
     var $selectedMake;
     var $selectedModel;
     var $selectedYear;
+    var currentPage = '';
 
     $loading.hide();
     $modelGrid.hide();
+    $yearGrid.hide();
+    $trimGrid.hide();
 
     function getModels(event){
 
@@ -27,7 +28,7 @@ $(function(){
             success: function(models){
 
                 stopLoad();
-                convertModel(models);
+                loadModels(models);
 
             },
             error: function(request, textStatus, errorThrown){
@@ -37,8 +38,29 @@ $(function(){
 
     }
 
-    $makeButton.click(getModels);
+    function getYears(event){
 
+        startLoad();
+
+        $selectedModel = $(this).val();
+        var yearUrl = 'getyears/' + $selectedMake + '/' + $selectedModel + '/';
+
+        $.ajax({
+
+            url: yearUrl,
+            success: function(years){
+
+                stopLoad();
+                loadYears(years);
+
+            },
+            error: function(request, textStatus, errorThrown){
+                alert(errorThrown);
+            }
+
+        });
+
+    }
 
     function startLoad(){
         $gridDiv.hide();
@@ -50,23 +72,67 @@ $(function(){
         $gridDiv.show();
     }
 
-    function convertModel(models){
+    function loadModels(models){
+
+        history.pushState(models, null, '/');
+        currentPage = "models";
 
         var modelButtons = '';
 
         for(var i=0; i<models.length; i++){
-            modelButtons += '<div id="modelDiv" class="col-xs-6 col-sm-4 col-md-3">'
+            modelButtons += '<div class="col-xs-6 col-sm-4 col-md-3" class="modelDiv" >'
             + '<button class="modelButton" type="submit" value="' + models[i].niceName + '">' + models[i].name + '</button>'
             + '</div>';
         }
 
         $modelGrid.html(modelButtons);
+
         $makeGrid.hide();
         $modelGrid.show();
 
+    }
 
+    function loadYears(years){
+
+        history.pushState(years, null, '/');
+        currentPage = "years";
+
+        var yearButtons = '';
+
+        for(var i=0; i<years.length; i++){
+            yearButtons += '<div class="col-xs-6 col-sm-4 col-md-3" class="yearDiv" >'
+            + '<button class="yearButton" type="submit" value="' + years[i].year + '">' + years[i].year + '</button>'
+            + '</div>';
+        }
+
+        $yearGrid.html(yearButtons);
+        $modelGrid.hide();
+        $yearGrid.show();
 
     }
+
+    function loadTrims(trims){
+
+    }
+
+    window.onpopstate = function(event){
+
+        if(currentPage == 'years'){
+            $yearGrid.hide();
+            $modelGrid.show();
+
+            currentPage = 'models';
+        }else{
+            $modelGrid.hide();
+            $makeGrid.show();
+
+            currentPage = '';
+        }
+
+    };
+
+    $makeButton.click(getModels);
+    $modelGrid.on('click', '.modelButton', getYears);
 
 
 
