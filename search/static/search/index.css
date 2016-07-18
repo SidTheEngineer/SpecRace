@@ -31,7 +31,7 @@ body, html{
 	font-size: 48pt;
 }
 
-/* Logo link */
+/*======= LOGO LINK =======*/
 em#race{color: #333333;}
 #logo a:link{color: green; text-decoration: none;}
 #logo a:hover{color: green;}
@@ -53,19 +53,30 @@ em#race{color: #333333;}
 	background-color: transparent;
 }
 
+#makeGrid, #modelGrid, #yearGrid, #trimGrid{
+	padding-top: 18em;
+	margin-bottom: 40px;
+}
+
+.makeDiv{
+	margin: 0 auto;
+}
+
 button {
 	font-family: 'Oswald', sans-serif;
+	font-size: 14pt;
 	margin: 0 auto;
-	height: 40px;
+	height: 55px;
 	width: 100%;
-	color: lightgray;;
+	color: lightgray;
 	border-color: transparent;
 	border-radius: 0;
 	box-shadow: none;
 	text-align: center;
+	word-wrap: break-word;
 	border-width: thin;
-	margin-bottom: 10px;
-	background-color: rgba(80, 80, 80, 0.6);
+	margin-bottom: 15px;
+	background-color: rgba(80, 80, 80, 0.5);
 }
 
 button:hover, button:active, button:focus {
@@ -83,11 +94,6 @@ button:hover, button:active, button:focus {
 	text-align: center;
 	margin-top: 300px;
 	text-shadow: 7px 7px 10px black;
-}
-
-#makeGrid, #modelGrid, #yearGrid, #trimGrid{
-	padding-top: 18em;
-	margin-bottom: 40px;
 }
 
 /*===========SHADOW FOOTER=========*/

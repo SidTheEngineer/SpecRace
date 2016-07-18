@@ -31,7 +31,7 @@
 			<div id="gridDiv" class="col-xs-12">
 				<div id="makeGrid" class="row">
 					{% for make in allMakes %}
-						<div id="makeDiv" class="col-xs-4 col-sm-3 col-md-2">
+						<div class="col-xs-6 col-sm-3 col-md-2" class="makeDiv" >
 							<button class="makeButton" type="submit" value="{{ make.niceName }}">{{ make.name }}</button>
 						</div>
 					{% endfor %}
@@ -43,7 +43,7 @@
 
 				</div>
 				<div id="trimGrid" class="row">
-					
+
 				</div>
 			</div>
 			<div id="loading">

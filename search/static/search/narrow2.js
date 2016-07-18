@@ -62,6 +62,11 @@ $(function(){
 
     }
 
+    $makeButton.click(getModels);
+    $modelGrid.on('click', '.modelButton', getYears);
+
+    /*======= HELPERS =======*/
+
     function startLoad(){
         $gridDiv.hide();
         $loading.show();
@@ -100,7 +105,7 @@ $(function(){
         var yearButtons = '';
 
         for(var i=0; i<years.length; i++){
-            yearButtons += '<div class="col-xs-6 col-sm-4 col-md-3" class="yearDiv" >'
+            yearButtons += '<div class="col-xs-4 col-sm-3 col-md-2" class="yearDiv" >'
             + '<button class="yearButton" type="submit" value="' + years[i].year + '">' + years[i].year + '</button>'
             + '</div>';
         }
@@ -130,10 +135,6 @@ $(function(){
         }
 
     };
-
-    $makeButton.click(getModels);
-    $modelGrid.on('click', '.modelButton', getYears);
-
 
 
 });
