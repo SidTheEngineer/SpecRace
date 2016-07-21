@@ -1,3 +1,6 @@
+// This file is used fro button navigation on the app, it
+// narrows the choices based on what is clicked.
+
 $(function(){
 
     var $gridDiv = $('#gridDiv')
@@ -5,7 +8,6 @@ $(function(){
     var $yearGrid = $('#yearGrid'), $trimGrid = $('#trimGrid');
     var $loading = $('#loading');
     var $makeButton = $('.makeButton');
-    var $modelButton = $('.modelButton');
     var $selectedMake;
     var $selectedModel;
     var $selectedYear;
@@ -15,6 +17,7 @@ $(function(){
     $modelGrid.hide();
     $yearGrid.hide();
     $trimGrid.hide();
+    $('#specGrid').hide();
 
     function getModels(event){
 
@@ -62,8 +65,32 @@ $(function(){
 
     }
 
+    function getTrims(){
+
+        startLoad();
+
+        $selectedYear = $(this).val();
+        var trimUrl = 'gettrims/' + $selectedMake + '/' + $selectedModel + '/' + $selectedYear + '/';
+
+        $.ajax({
+
+            url: trimUrl,
+            success: function(trims){
+
+                stopLoad();
+                loadTrims(trims);
+
+            },
+            error: function(request, textStatus, errorThrown){
+                alert(errorThrown);
+            }
+        });
+    }
+
+    /*======== EVENTS =======*/
     $makeButton.click(getModels);
     $modelGrid.on('click', '.modelButton', getYears);
+    $yearGrid.on('click', '.yearButton', getTrims);
 
     /*======= HELPERS =======*/
 
@@ -79,6 +106,7 @@ $(function(){
 
     function loadModels(models){
 
+        // Push history onto stack.
         history.pushState(models, null, '/');
         currentPage = "models";
 
@@ -91,7 +119,6 @@ $(function(){
         }
 
         $modelGrid.html(modelButtons);
-
         $makeGrid.hide();
         $modelGrid.show();
 
@@ -99,6 +126,7 @@ $(function(){
 
     function loadYears(years){
 
+        // Push history onto stack.
         history.pushState(years, null, '/');
         currentPage = "years";
 
@@ -118,11 +146,35 @@ $(function(){
 
     function loadTrims(trims){
 
+        // Push history onto stack.
+        history.pushState(trims, null, '/');
+        currentPage = 'trims';
+
+        var trimButtons = '';
+
+        for(var i=0; i<trims.length; i++){
+            trimButtons += '<div class="col-xs-12 col-md-6" class="trimDiv" >'
+            + '<button class="trimButton" type="submit" value="' + trims[i].id + '">' + trims[i].name + '</button>'
+            + '</div>';
+        }
+
+        $trimGrid.html(trimButtons);
+        $yearGrid.hide();
+        $trimGrid.show();
+
     }
 
+    // When the back button is pressed ...
     window.onpopstate = function(event){
 
-        if(currentPage == 'years'){
+        if(currentPage == 'trims'){
+
+            $trimGrid.hide();
+            $yearGrid.show();
+
+            currentPage = 'years';
+        }else if(currentPage == 'years'){
+
             $yearGrid.hide();
             $modelGrid.show();
 

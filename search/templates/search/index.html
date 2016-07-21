@@ -22,9 +22,6 @@
 		<div id="logo">
 			<a href='/'><em id="spec">Spec</em> <em id="race">Race</em></a>
 		</div>
-		<div id="edmundsLogo">
-			<img src="{% static "search/images/edmundslogo.png" %}"/>
-		</div>
 	</div>
 	<div id="middle" class="container">
 		<div class="row">
@@ -40,9 +37,12 @@
 					<!-- List model buttons here with JS. -->
 				</div>
 				<div id="yearGrid" class="row">
-
+					<!-- List year buttons here with JS. -->
 				</div>
 				<div id="trimGrid" class="row">
+					<!-- List trim buttons here with JS. -->
+				</div>
+				<div id="specGrid">
 
 				</div>
 			</div>
@@ -52,10 +52,13 @@
 		</div>
 	</div>
 	<div id=foot>
-
+		<div id="edmundsLogo">
+			<img src="{% static "search/images/edmundslogo.png" %}"/>
+		</div>
 	</div>
 
 <script src="{% static 'search/narrow2.js' %}"></script>
+<script src="{% static 'search/showSpecs.js' %}"></script>
 <script src="{% static 'search/checkBoxes.js' %}"></script>
 </body>
 
