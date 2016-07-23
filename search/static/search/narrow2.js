@@ -14,6 +14,7 @@ $(function(){
     var currentPage = '';
 
     $loading.hide();
+    //$makeGrid.hide();
     $modelGrid.hide();
     $yearGrid.hide();
     $trimGrid.hide();
@@ -65,7 +66,7 @@ $(function(){
 
     }
 
-    function getTrims(){
+    function getTrims(event){
 
         startLoad();
 
