@@ -7,7 +7,7 @@ $(function(){
 
     function getSpecs(){
 
-        alert($(this).val());
+        helpers.startLoad();
 
     }
 

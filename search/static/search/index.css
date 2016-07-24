@@ -43,6 +43,8 @@ em#race{color: #333333;}
 	width: 220px;
 	margin: 0 auto;
 }
+#loading{display: none;}
+
 #middle{
 	position: relative;
 	height: 80%;
@@ -53,7 +55,7 @@ em#race{color: #333333;}
 	background-color: transparent;
 }
 
-#makeGrid, #modelGrid, #yearGrid, #trimGrid{
+#makeGrid, #modelGrid, #yearGrid, #trimGrid, #specGrid{
 	padding-top: 10em;
 	margin-bottom: 40px;
 }
@@ -81,13 +83,17 @@ em#race{color: #333333;}
 	hyphens: auto;
 	text-shadow: 7px 7px 10px black;
 }
+
+#specList {min-height: 75%; width: 100%;}
+#specList div{width: 100%; min-height: 80px;}
 .specTable h3{text-align: left;}
-.specTable #specList #specs{padding-top: 15px;}
-.spec{color: green;}
+.specTable #specList{padding-top: 20px;}
+.specName{width: 50%;}
+.spec{color: green; /*display: none;*/}
 
 @media (max-width: 600px){
 	.specTable h1{font-size: 18pt;}
-	.specTable h3{font-size: 14pt;}
+	.specTable h3{font-size: 13pt;}
 }
 
 

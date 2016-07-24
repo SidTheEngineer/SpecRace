@@ -3,17 +3,16 @@
 
 $(function(){
 
-    var $gridDiv = $('#gridDiv')
-    var $makeGrid = $('#makeGrid'), $modelGrid = $('#modelGrid');
-    var $yearGrid = $('#yearGrid'), $trimGrid = $('#trimGrid');
-    var $loading = $('#loading');
+    var $makeGrid = $('#makeGrid')
+    var $modelGrid = $('#modelGrid');
+    var $yearGrid = $('#yearGrid')
+    var $trimGrid = $('#trimGrid');
+    var currentPage = '';
     var $makeButton = $('.makeButton');
     var $selectedMake;
     var $selectedModel;
     var $selectedYear;
-    var currentPage = '';
 
-    $loading.hide();
     //$makeGrid.hide();
     $modelGrid.hide();
     $yearGrid.hide();
@@ -22,7 +21,7 @@ $(function(){
 
     function getModels(event){
 
-        startLoad();
+        helpers.startLoad();
 
         $selectedMake = $(this).val();
         var modelUrl = 'getmodels/' + $selectedMake + '/';
@@ -31,7 +30,7 @@ $(function(){
             url: modelUrl,
             success: function(models){
 
-                stopLoad();
+                helpers.stopLoad();
                 loadModels(models);
 
             },
@@ -44,7 +43,7 @@ $(function(){
 
     function getYears(event){
 
-        startLoad();
+        helpers.startLoad();
 
         $selectedModel = $(this).val();
         var yearUrl = 'getyears/' + $selectedMake + '/' + $selectedModel + '/';
@@ -54,7 +53,7 @@ $(function(){
             url: yearUrl,
             success: function(years){
 
-                stopLoad();
+                helpers.stopLoad();
                 loadYears(years);
 
             },
@@ -68,7 +67,7 @@ $(function(){
 
     function getTrims(event){
 
-        startLoad();
+        helpers.startLoad();
 
         $selectedYear = $(this).val();
         var trimUrl = 'gettrims/' + $selectedMake + '/' + $selectedModel + '/' + $selectedYear + '/';
@@ -78,7 +77,7 @@ $(function(){
             url: trimUrl,
             success: function(trims){
 
-                stopLoad();
+                helpers.stopLoad();
                 loadTrims(trims);
 
             },
@@ -94,16 +93,6 @@ $(function(){
     $yearGrid.on('click', '.yearButton', getTrims);
 
     /*======= HELPERS =======*/
-
-    function startLoad(){
-        $gridDiv.hide();
-        $loading.show();
-    }
-
-    function stopLoad(){
-        $loading.hide();
-        $gridDiv.show();
-    }
 
     function loadModels(models){
 
