@@ -3,6 +3,7 @@ import json
 from django.conf import settings
 from django.test import TestCase
 
+# Test car.
 testMake = 'bmw'
 testModel = '4-series'
 testYear = '2016'

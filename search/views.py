@@ -78,8 +78,32 @@ def getTrims(request, make, model, year):
 
 	return JsonResponse(styles, safe=False)
 
+def getSpecs(request, trimId):
+
+	specsUrl = settings.VEHICLE_URL + 'styles/' + trimId + settings.FULL_ENDING
+	equipmentUrl = settings.VEHICLE_URL + 'styles/' + trimId + settings.EQUIPMENT_ENDING
+	cachedSpecs = cache.get(specsUrl)
+	cachedEquipment = cache.get(equipmentUrl)
+
+	if not cachedSpecs and not cachedEquipment:
+
+		specs = requests.get(specsUrl).json()
+		equipment = requests.get(equipmentUrl).json()['equipment'][0]['attributes']
+		cache.set(specsUrl, specs)
+		cache.set(equipmentUrl, equipment)
+		context = {'specs': specs, 'equipment': equipment}
+
+	else:
+
+		specs = cachedSpecs
+		equipment = cachedEquipment
+		context = {'specs': specs, 'equipment': equipment}
+
+	return JsonResponse(context)
+
+
 # Gets the selected trim and renders the detail page for it.
-def search(request):
+'''def search(request):
 
 	try:
 		trimId = request.GET['trim']
@@ -124,4 +148,4 @@ def search(request):
 	except MultiValueDictKeyError:
 		return redirect('/') # Redirect home.
 
-	return render(request, 'search/detail.html', context)
+	return render(request, 'search/detail.html', context)'''
