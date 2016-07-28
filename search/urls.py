@@ -11,7 +11,7 @@ urlpatterns = [
 	# /search, render the template for a car.
 	#url(r'^specs/', views.search, name='search'),
 
-	# Uses Ajax/JSON to change the model/year/trim boxes.
+	# Ajax URLs that retrieve vehicle JSON.
 	url(r'^getmodels/(?P<make>[a-zA-Z0-9_.-]+)/', views.getModels, name='getmodels'),
 	url(r'^getyears/(?P<make>[a-zA-Z0-9_.-]+)/(?P<model>[a-zA-Z0-9_.-]+)/', views.getYears, name='getyears'),
 	url(r'^gettrims/(?P<make>[a-zA-Z0-9_.-]+)/(?P<model>[a-zA-Z0-9_.-]+)/(?P<year>\d+)/', views.getTrims, name='gettrims'),

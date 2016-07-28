@@ -12,9 +12,15 @@ var helpers = (function(){
     var $trimGrid = $('#trimGrid');
     var $specGrid = $('#specGrid');
 
-    var specs = {
-        'engine': $('#engine'),
-        'horsepower': $('#horsepower')
+    var specDivs = {
+        '$engineText': $('#engine').find('.spec'),
+        '$horsepowerText': $('#horsepower').find('.spec'),
+        '$torqueText': $('#torque').find('.spec'),
+        '$transmissionText': $('#transmission').find('.spec'),
+        '$weightText': $('#weight').find('.spec'),
+        '$drivetrainText': $('#drivetrain').find('.spec'),
+        '$fuelEcoText': $('#fuelEco').find('.spec'),
+        '$msrpText': $('#msrp').find('.spec')
     };
 
     /*===== LOADING ====*/
@@ -94,29 +100,105 @@ var helpers = (function(){
         history.pushState(content, null, '/');
         currentPage = 'specs';
 
-        var weight = 'Not Available'; // Changed if exists.
+        var notAvailable = 'Not Available';
+        var carName = [
+            content.specs.year.year,
+            content.specs.make.name,
+            content.specs.model.name,
+            content.specs.trim
+        ]
 
-        for(var i=0; i<content.equipment.length; i++){
-            if(content.equipment[i].name == 'Curb Weight'){
-                weight = content.equipment[i].value;
+        // Ternaries for vehicles too new/that Edmunds doesn't have data on.
+        var engineSize = content.specs.engine.size;
+        var engineConfig = content.specs.engine.configuration;
+        var engineCyl = content.specs.engine.cylinder;
+        var compressorType = content.specs.engine.compressorType;
+        var hp = content.specs.engine.horsepower ? content.specs.engine.horsepower : '';
+        var tq = content.specs.engine.torque;
+        var hpRPM = content.specs.engine.rpm ? content.specs.engine.rpm.horsepower : '';
+        var tqRPM = content.specs.engine.rpm ? content.specs.engine.rpm.torque : '';
+        var transmissionSpeeds = content.specs.transmission.numberOfSpeeds;
+        var transmissionType = content.specs.transmission.transmissionType;
+        var cityMPG = content.specs.MPG ? content.specs.MPG.city : '';
+        var highwayMPG = content.specs.MPG ? content.specs.MPG.highway : '';
+        var weight = '';
+        var drivetrain = content.specs.drivenWheels;
+        var msrp = content.specs.price ? content.specs.price.baseMSRP : '';
+
+        // Default values.
+        specDivs.$engineText.text(notAvailable);
+        specDivs.$horsepowerText.text(notAvailable);
+        specDivs.$torqueText.text(notAvailable);
+        specDivs.$transmissionText.text(notAvailable);
+        specDivs.$weightText.text(notAvailable);
+        specDivs.$drivetrainText.text(notAvailable);
+        specDivs.$fuelEcoText.text(notAvailable);
+        specDivs.$msrpText.text(notAvailable);
+
+        // If the equipment is available for the car.;
+        if(content.equipment){
+            for(var i=0; i<content.equipment.length; i++){
+                if(content.equipment[i].name == 'Curb Weight'){
+                    weight = content.equipment[i].value;
+                }
             }
         }
 
+        // Display name of the car at top.
+        $('#carName').text(carName.join(' '));
 
-        specs.engine.find('.spec').text(content.specs.engine.size + 'L');
+        if(engineCyl){
+            specDivs.$engineText.text(
+                engineSize + ' L '
+                + engineConfig + ' '
+                + engineCyl + ' '
+                + '(' + compressorType + ')'
+            );
+        }
+
+        if(hp){
+            specDivs.$horsepowerText.text(
+                hp + ' hp ' + ' @ '
+                + hpRPM + 'rpm'
+            );
+        }
+
+        if(tq){
+            specDivs.$torqueText.text(
+                tq + ' lb-ft ' + ' @ '
+                + tqRPM + 'rpm'
+            );
+        }
+
+        if(transmissionSpeeds){
+            specDivs.$transmissionText.text(
+                transmissionSpeeds + '-speed '
+                + transmissionType.toLowerCase().replace('_', ' ')
+            );
+        }
+
+        if(weight){
+            specDivs.$weightText.text(weight + ' lbs');
+        }
+
+        if(drivetrain){
+            specDivs.$drivetrainText.text(drivetrain);
+        }
+
+        if(cityMPG){
+            specDivs.$fuelEcoText.text(
+                cityMPG + ' City '
+                + highwayMPG + ' Highway'
+            );
+        }
+
+        if(msrp){
+            // Money format.
+            specDivs.$msrpText.text('$'+ msrp.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,'));
+        }
+
         $trimGrid.hide();
         $specGrid.show();
-
-
-        /*console.log(content.specs.engine.size);
-        console.log(content.specs.engine.horsepower);
-        console.log(content.specs.engine.torque);
-        console.log(weight);
-        console.log(content.specs.drivenWheels);
-        console.log(content.specs.MPG.city);
-        console.log(content.specs.MPG.highway);
-        console.log(content.specs.price.baseMSRP);*/
-
 
     }
 

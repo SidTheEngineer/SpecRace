@@ -88,16 +88,27 @@ def getSpecs(request, trimId):
 	if not cachedSpecs and not cachedEquipment:
 
 		specs = requests.get(specsUrl).json()
-		equipment = requests.get(equipmentUrl).json()['equipment'][0]['attributes']
-		cache.set(specsUrl, specs)
-		cache.set(equipmentUrl, equipment)
-		context = {'specs': specs, 'equipment': equipment}
+
+		# Try to get the equipment from Edmunds.
+		try:
+			equipment = requests.get(equipmentUrl).json()['equipment'][0]['attributes']
+			context = {'specs': specs, 'equipment': equipment}
+			cache.set(specsUrl, specs)
+			cache.set(equipmentUrl, equipment)
+		except IndexError:
+			context = {'specs': specs}
+			cache.set(specsUrl, specs)
+
 
 	else:
 
 		specs = cachedSpecs
-		equipment = cachedEquipment
-		context = {'specs': specs, 'equipment': equipment}
+
+		try:
+			equipment = cachedEquipment
+			context = {'specs': specs, 'equipment': equipment}
+		except:
+			context = {'specs': specs}
 
 	return JsonResponse(context)
 
