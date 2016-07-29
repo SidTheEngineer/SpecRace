@@ -85,7 +85,7 @@ em#race{color: #333333;}
 }
 
 #specList {min-height: 75%; width: 100%;}
-#specList div{width: 100%; min-height: 80px;}
+#specList div{width: 100%; min-height: 80px; border-bottom: solid;}
 .specTable h3{text-align: center;}
 .specTable #specList{padding-top: 20px;}
 .specName{width: 50%;}

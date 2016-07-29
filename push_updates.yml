@@ -8,12 +8,13 @@
           git: repo=ssh://git@github.com/sidp0/specrace.git
                dest=/home/sid/specrace/mysite
                version=master
+               force=yes
           notify:
           - restart gunicorn
           - restart nginx
         - name: Collecting Static Files.
-          django_manage: app_path=~/specrace/mysite
-                         virtualenv=~/specrace/mysite/specraceenv/bin
+          django_manage: app_path=~/specrace/mysite/
+                         virtualenv=~/specrace/mysite/specraceenv/bin/
                          command=collectstatic
       handlers:
         - name: restart gunicorn
