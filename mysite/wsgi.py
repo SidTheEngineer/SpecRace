@@ -10,6 +10,10 @@ https://docs.djangoproject.com/en/1.9/howto/deployment/wsgi/
 import os
 
 from django.core.wsgi import get_wsgi_application
+from django.core.cache.backends.memcached import BaseMemcachedCache
+
+# For setting up a faster memcached.
+BaseMemcachedCache.close = lambda self, **kwargs: None
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "mysite.settings")
 

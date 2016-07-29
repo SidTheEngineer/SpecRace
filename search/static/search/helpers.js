@@ -112,9 +112,9 @@ var helpers = (function(){
         var engineSize = content.specs.engine.size;
         var engineConfig = content.specs.engine.configuration;
         var engineCyl = content.specs.engine.cylinder;
-        var compressorType = content.specs.engine.compressorType;
+        var compressorType = content.specs.engine.compressorType ? content.specs.engine.compressorType : '';
         var hp = content.specs.engine.horsepower ? content.specs.engine.horsepower : '';
-        var tq = content.specs.engine.torque;
+        var tq = content.specs.engine.torque ? content.specs.engine.torque : '';
         var hpRPM = content.specs.engine.rpm ? content.specs.engine.rpm.horsepower : '';
         var tqRPM = content.specs.engine.rpm ? content.specs.engine.rpm.torque : '';
         var transmissionSpeeds = content.specs.transmission.numberOfSpeeds;
@@ -122,7 +122,7 @@ var helpers = (function(){
         var cityMPG = content.specs.MPG ? content.specs.MPG.city : '';
         var highwayMPG = content.specs.MPG ? content.specs.MPG.highway : '';
         var weight = '';
-        var drivetrain = content.specs.drivenWheels;
+        var drivetrain = content.specs.drivenWheels ? content.specs.drivenWheels : '';
         var msrp = content.specs.price ? content.specs.price.baseMSRP : '';
 
         // Default values.

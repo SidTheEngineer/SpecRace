@@ -1,173 +1,148 @@
+// This file is used fro button navigation on the app, it
+// narrows the choices based on what is clicked.
+
 $(function(){
 
-    var $make = $('select#make');
-    var $model = $('select#model');
-    var $year = $('select#year');
-    var $trim = $('select#trim');
-    var $go = $('button#go');
-    var $loading = $('h1#loading');
+    var $makeButton = $('.makeButton');
+    var $makeGrid = $('#makeGrid');
+    var $modelGrid = $('#modelGrid');
+    var $yearGrid = $('#yearGrid');
+    var $trimGrid = $('#trimGrid');
+    var $specGrid = $('#specGrid');
     var $selectedMake;
     var $selectedModel;
     var $selectedYear;
+    var $trimId;
 
-    $loading.hide();
+    $modelGrid.hide();
+    $yearGrid.hide();
+    $trimGrid.hide();
+    $specGrid.hide();
 
-    function openModel(){
+    function getModels(event){
 
-        $selectedMake = $(this).find('option:selected').val();
+        helpers.startLoad();
+
+        $selectedMake = $(this).val();
         var modelUrl = 'getmodels/' + $selectedMake + '/';
 
-        // Make asynch call if a make is selected.
-        if($selectedMake != 'empty'){
+        $.ajax({
+            url: modelUrl,
+            success: function(models){
 
-            var modelOptions = '';
+                helpers.stopLoad();
+                helpers.loadModels(models);
 
-            notSelected($make, $model); // Remove red borders.
-            startLoad($go, $loading);
-            tempClose($model, $year, $trim); // Close while loading.
-
-            $.ajax({
-                url: modelUrl,
-                success: function(models){
-
-                    stopLoad($go, $loading);
-
-                    for(i=0; i<models.length; i++){
-                        modelOptions += '<option value="' + models[i].niceName + '">' + models[i].name + '</option>';
-                    }
-
-                    fillAndOpen(modelOptions, $model);
-                    resetAndClose($year, $trim);
-                },
-                error: function(request, textStatus, errorThrown){
-                    alert(errorThrown);
-                }
-            });
-
-        }else{
-
-            resetAndClose($model, $year, $trim);
-		}
+            },
+            error: function(request, textStatus, errorThrown){
+                alert(errorThrown);
+            }
+        });
 
     }
 
-    function openYear(){
+    function getYears(event){
 
-        $selectedModel = $(this).find('option:selected').val();
+        helpers.startLoad();
+
+        $selectedModel = $(this).val();
         var yearUrl = 'getyears/' + $selectedMake + '/' + $selectedModel + '/';
 
-        if($selectedModel != 'empty'){
+        $.ajax({
 
-            // What will be used to hold the <option> html.
-            var yearOptions = '';
+            url: yearUrl,
+            success: function(years){
 
-            notSelected($model, $year);
-            startLoad($go, $loading);
-            tempClose($year, $trim);
+                helpers.stopLoad();
+                helpers.loadYears(years);
 
-            $.ajax({
-                url: yearUrl,
-                success: function(years){
+            },
+            error: function(request, textStatus, errorThrown){
+                alert(errorThrown);
+            }
 
-                    stopLoad($go, $loading);
+        });
 
-                    for(i=0; i<years.length; i++){
-                        yearOptions += '<option value="' + years[i].year + '">' + years[i].year + '</option>';
-                    }
-
-                    fillAndOpen(yearOptions, $year);
-                    resetAndClose($trim);
-                },
-                error: function(request, textStatus, errorThrown){
-                    alert(errorThrown);
-                }
-
-            });
-        }else{
-
-            resetAndClose($trim, $year);
-        }
     }
 
-    function openTrim(){
+    function getTrims(event){
 
-        $selectedYear = $(this).find('option:selected').val();
-        var trimUrl = 'gettrims/' + $selectedMake + '/' + $selectedModel + '/' + $selectedYear +'/';
+        helpers.startLoad();
 
-        if($selectedYear != 'empty'){
+        $selectedYear = $(this).val();
+        var trimUrl = 'gettrims/' + $selectedMake + '/' + $selectedModel + '/' + $selectedYear + '/';
 
-            // What will be used to hold <option> html.
-            var trimOptions = '';
+        $.ajax({
 
-            notSelected($model, $year, $trim);
-            startLoad($go, $loading);
-            tempClose($trim);
+            url: trimUrl,
+            success: function(trims){
 
-            $.ajax({
-                url: trimUrl,
-                success: function(trims){
+                helpers.stopLoad();
+                helpers.loadTrims(trims);
 
-                    stopLoad($go, $loading);
-
-                    for(i=0; i<trims.length; i++){
-                        trimOptions += '<option value="' + trims[i].id + '">' + trims[i].name + '</option>';
-                    }
-
-                    fillAndOpen(trimOptions, $trim);
-                },
-                error: function(request, textStatus, errorThrown){
-                    alert(errorThrown);
-                }
-            });
-        }else{
-
-            // If empty is selected close the other box.
-            resetAndClose($trim);
-        }
+            },
+            error: function(request, textStatus, errorThrown){
+                alert(errorThrown);
+            }
+        });
     }
 
-    $make.change(openModel);
-    $model.change(openYear);
-    $year.change(openTrim);
+    function getSpecs(){
+
+        helpers.startLoad();
+
+        $trimId = $(this).val();
+        var specsUrl = 'getspecs/' + $trimId + '/';
+
+        $.ajax({
+
+            url: specsUrl,
+            success: function(content){
+                helpers.stopLoad();
+                helpers.loadSpecs(content);
+            },
+            error: function(request, textStatus, errorThrown){
+                alert(errorThrown);
+            }
+        });
+
+    }
+
+    /*======== EVENTS =======*/
+    $makeButton.click(getModels);
+    $modelGrid.on('click', '.modelButton', getYears);
+    $yearGrid.on('click', '.yearButton', getTrims);
+    $trimGrid.on('click', '.trimButton', getSpecs);
+
+    // When the back button is pressed ...
+    window.onpopstate = function(event){
+
+        if(currentPage == 'specs'){
+
+            $specGrid.hide();
+            $trimGrid.show();
+
+            currentPage = 'trims';
+        }else if(currentPage == 'trims'){
+
+            $trimGrid.hide();
+            $yearGrid.show();
+
+            currentPage = 'years';
+        }else if(currentPage == 'years'){
+
+            $yearGrid.hide();
+            $modelGrid.show();
+
+            currentPage = 'models';
+        }else{
+            $modelGrid.hide();
+            $makeGrid.show();
+
+            currentPage = '';
+        }
+
+    };
+
 
 });
-
-var notSelected = function(){
-    for(var i=0; i<arguments.length; i++){
-        arguments[i].removeClass('notSelected');
-    }
-}
-
-var tempClose = function(){
-    for(var i=0; i<arguments.length; i++){
-        arguments[i].prop('disabled', true);
-    }
-}
-
-var resetAndClose = function(){
-    for(var i=0; i<arguments.length; i++){
-        arguments[i].html('<option value="empty"></option>');
-        arguments[i].animate({
-            opacity: 0.3
-        }, 350);
-        arguments[i].attr('disabled', true);
-    }
-}
-
-function fillAndOpen(options, element){
-    element.html('<option value="empty"></option>' + options);
-    element.animate({
-        opacity: 1
-    }, 350);
-    element.attr('disabled', false);
-}
-
-function startLoad(go, loading){
-    go.hide();
-    loading.show();
-}
-
-function stopLoad(go, loading){
-    loading.hide();
-    go.show();
-}

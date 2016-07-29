@@ -99,7 +99,6 @@ def getSpecs(request, trimId):
 			context = {'specs': specs}
 			cache.set(specsUrl, specs)
 
-
 	else:
 
 		specs = cachedSpecs

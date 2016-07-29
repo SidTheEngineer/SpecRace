@@ -86,10 +86,10 @@ em#race{color: #333333;}
 
 #specList {min-height: 75%; width: 100%;}
 #specList div{width: 100%; min-height: 80px;}
-.specTable h3{text-align: left;}
+.specTable h3{text-align: center;}
 .specTable #specList{padding-top: 20px;}
 .specName{width: 50%;}
-.spec{color: green; /*display: none;*/}
+.spec{color: green;}
 
 @media (max-width: 600px){
 	.specTable h1{font-size: 18pt;}
@@ -114,7 +114,7 @@ button {
 	background-color: rgba(80, 80, 80, 0.5);
 }
 
-button:hover, button:active, button:focus {
+button:focus, button:hover, button:active{
 	border-style: solid;
 	border-color: green;
 	background-color: green;
