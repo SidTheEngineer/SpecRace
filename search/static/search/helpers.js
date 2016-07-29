@@ -51,7 +51,7 @@ var helpers = (function(){
 
         $modelGrid.html(modelButtons);
         $makeGrid.hide();
-        $modelGrid.show();
+        $modelGrid.hide().fadeIn(100);
 
     }
 
@@ -63,7 +63,8 @@ var helpers = (function(){
 
         var yearButtons = '';
 
-        for(var i=0; i<years.length; i++){
+        // Order New -> Old from top to bottom.
+        for(var i=years.length-1; i>0; i--){
             yearButtons += '<div class="col-xs-4 col-sm-3 col-md-2" class="yearDiv" >'
             + '<button class="yearButton" type="submit" value="' + years[i].year + '">' + years[i].year + '</button>'
             + '</div>';
@@ -71,7 +72,7 @@ var helpers = (function(){
 
         $yearGrid.html(yearButtons);
         $modelGrid.hide();
-        $yearGrid.show();
+        $yearGrid.hide().fadeIn(100);
 
     }
 
@@ -91,7 +92,7 @@ var helpers = (function(){
 
         $trimGrid.html(trimButtons);
         $yearGrid.hide();
-        $trimGrid.show();
+        $trimGrid.hide().fadeIn(100);
 
     }
 
@@ -126,14 +127,9 @@ var helpers = (function(){
         var msrp = content.specs.price ? content.specs.price.baseMSRP : '';
 
         // Default values.
-        specDivs.$engineText.text(notAvailable);
-        specDivs.$horsepowerText.text(notAvailable);
-        specDivs.$torqueText.text(notAvailable);
-        specDivs.$transmissionText.text(notAvailable);
-        specDivs.$weightText.text(notAvailable);
-        specDivs.$drivetrainText.text(notAvailable);
-        specDivs.$fuelEcoText.text(notAvailable);
-        specDivs.$msrpText.text(notAvailable);
+        for(spec in specDivs){
+            specDivs[spec].text(notAvailable);
+        }
 
         // If the equipment is available for the car.;
         if(content.equipment){
@@ -194,11 +190,14 @@ var helpers = (function(){
 
         if(msrp){
             // Money format.
-            specDivs.$msrpText.text('$'+ msrp.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,'));
+            specDivs.$msrpText.text(
+                '$'
+                + msrp.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,')
+            );
         }
 
         $trimGrid.hide();
-        $specGrid.show();
+        $specGrid.hide().fadeIn(100);
 
     }
 
