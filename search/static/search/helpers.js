@@ -64,7 +64,7 @@ var helpers = (function(){
         var yearButtons = '';
 
         // Order New -> Old from top to bottom.
-        for(var i=years.length-1; i>0; i--){
+        for(var i=years.length-1; i>=0; i--){
             yearButtons += '<div class="col-xs-4 col-sm-3 col-md-2" class="yearDiv" >'
             + '<button class="yearButton" type="submit" value="' + years[i].year + '">' + years[i].year + '</button>'
             + '</div>';
