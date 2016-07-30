@@ -16,6 +16,8 @@
           django_manage: app_path=~/specrace/mysite/
                          virtualenv=~/specrace/mysite/specraceenv/bin/
                          command=collectstatic
+          notify:
+          - restart gunicorn
       handlers:
         - name: restart gunicorn
           service: name=gunicorn state=restarted

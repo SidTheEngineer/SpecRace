@@ -25,13 +25,13 @@ var helpers = (function(){
 
     /*===== LOADING ====*/
     function startLoad(){
-        $gridDiv.hide();
-        $loading.show();
+        $gridDiv.hide().fadeOut(100);
+        $loading.hide().fadeIn(100);
     }
 
     function stopLoad(){
-        $loading.hide();
-        $gridDiv.show();
+        $loading.hide().fadeOut(100);
+        $gridDiv.hide().fadeIn(100);
     }
 
     /*====== AJAX DATA RETRIEVAL/DISPLAY =====*/
@@ -192,7 +192,7 @@ var helpers = (function(){
             // Money format.
             specDivs.$msrpText.text(
                 '$'
-                + msrp.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,')
+                + msrp.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,').replace('.00', '')
             );
         }
 
