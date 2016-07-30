@@ -16,6 +16,7 @@ var helpers = (function(){
         '$engineText': $('#engine').find('.spec'),
         '$horsepowerText': $('#horsepower').find('.spec'),
         '$torqueText': $('#torque').find('.spec'),
+        '$zeroToSixtyText': $('#zeroToSixty').find('.spec'),
         '$transmissionText': $('#transmission').find('.spec'),
         '$weightText': $('#weight').find('.spec'),
         '$drivetrainText': $('#drivetrain').find('.spec'),
@@ -123,6 +124,7 @@ var helpers = (function(){
         var cityMPG = content.specs.MPG ? content.specs.MPG.city : '';
         var highwayMPG = content.specs.MPG ? content.specs.MPG.highway : '';
         var weight = '';
+        var zeroToSixty = '';
         var drivetrain = content.specs.drivenWheels ? content.specs.drivenWheels : '';
         var msrp = content.specs.price ? content.specs.price.baseMSRP : '';
 
@@ -136,6 +138,9 @@ var helpers = (function(){
             for(var i=0; i<content.equipment.length; i++){
                 if(content.equipment[i].name == 'Curb Weight'){
                     weight = content.equipment[i].value;
+                }
+                if(content.equipment[i].name == 'Manufacturer 0 60mph Acceleration Time (seconds)'){
+                    zeroToSixty = content.equipment[i].value;
                 }
             }
         }
@@ -164,6 +169,10 @@ var helpers = (function(){
                 tq + ' lb-ft ' + ' @ '
                 + tqRPM + 'rpm'
             );
+        }
+
+        if(zeroToSixty){
+            specDivs.$zeroToSixtyText.text(zeroToSixty + ' Seconds');
         }
 
         if(transmissionSpeeds){
