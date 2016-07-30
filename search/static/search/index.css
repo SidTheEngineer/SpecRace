@@ -75,13 +75,13 @@ em#race{color: #333333;}
 	min-height: 600px;
 }
 
-.specTable h1, h3, span{
+.specTable h1, h3{
 	color: lightgray;
 	font-family: 'Oswald', sans-serif;
 	text-align: center;
 	word-wrap: break-word;
 	hyphens: auto;
-	text-shadow: 7px 7px 10px black;
+	text-shadow: 3px 3px 6px black;
 }
 
 #specList {min-height: 75%; width: 100%;}
@@ -92,8 +92,14 @@ em#race{color: #333333;}
 .spec{color: green;}
 
 @media (max-width: 600px){
+	#head{min-height: 5em;}
+	#logo{font-size: 32pt;}
 	.specTable h1{font-size: 18pt;}
 	.specTable h3{font-size: 13pt;}
+	#makeGrid, #modelGrid, #yearGrid, #trimGrid, #specGrid{
+		padding-top: 7em;
+		margin-bottom: 40px;
+	}
 }
 
 
