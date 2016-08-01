@@ -9,19 +9,3 @@
                dest=/home/sid/specrace/mysite
                version=master
                force=yes
-          notify:
-          - restart gunicorn
-          - restart nginx
-        - name: Collecting Static Files.
-          django_manage: app_path=~/specrace/mysite/
-                         virtualenv=~/specrace/mysite/specraceenv/bin/
-                         command=collectstatic
-          notify:
-          - restart gunicorn
-      handlers:
-        - name: restart gunicorn
-          service: name=gunicorn state=restarted
-          become: true
-        - name: restart nginx
-          service: name=nginx state=restarted
-          become: true

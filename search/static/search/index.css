@@ -120,7 +120,7 @@ button {
 	background-color: rgba(80, 80, 80, 0.5);
 }
 
-button:focus, button:hover, button:active{
+button:focus, button:hover, button:active, button.mobileActive{
 	border-style: solid;
 	border-color: green;
 	background-color: green;

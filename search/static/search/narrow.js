@@ -109,6 +109,13 @@ $(function(){
     }
 
     /*======== EVENTS =======*/
+    $('button').bind("touchstart", function(){
+        $(this).addClass("mobileActive");
+    });
+    $('button').bind("touchend", function(){
+        $(this).removeClass('mobileActive');
+    });
+    
     $makeButton.click(getModels);
     $modelGrid.on('click', '.modelButton', getYears);
     $yearGrid.on('click', '.yearButton', getTrims);
