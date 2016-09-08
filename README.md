@@ -10,9 +10,8 @@ A mobile-friendly webapp that allows users to quickly and easily search for car 
 
 ![Alt text](http://i.imgur.com/WpaXuIn.png)
 
-## Future Improvements
-* Refactoring
-* Conversion to React
-* API request optimization
-* Comparison feature
-* More!
+## To Do
+- [ ] Clean up/refactor ugly JS.
+- [ ] Add helpers.py to clean up views.
+- [ ] Use memcache.
+- [ ] Optimize the amount of requests hitting external API.
