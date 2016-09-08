@@ -3,3 +3,4 @@ local_settings.py
 *.pyo
 mydatabase
 specraceenv
+.DS_Store
