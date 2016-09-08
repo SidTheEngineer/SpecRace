@@ -4,26 +4,34 @@ var currentPage = '';
 var helpers = (function(){
 
     // Page elements to be altered in helpers.
-    var $loading = $('#loading');
-    var $gridDiv = $('#gridDiv');
-    var $makeGrid = $('#makeGrid')
-    var $modelGrid = $('#modelGrid');
-    var $yearGrid = $('#yearGrid')
-    var $trimGrid = $('#trimGrid');
-    var $specGrid = $('#specGrid');
+    var $loading = $('#loading'),
+        $gridDiv = $('#gridDiv'),
+        $makeGrid = $('#makeGrid'),
+        $modelGrid = $('#modelGrid'),
+        $yearGrid = $('#yearGrid'),
+        $trimGrid = $('#trimGrid'),
+        $specGrid = $('#specGrid');
+        
+    // Default text for specs.
+    var notAvailable = ' ';
 
-    var specDivs = {
-        '$engineText': $('#engine').find('.spec'),
-        '$horsepowerText': $('#horsepower').find('.spec'),
-        '$torqueText': $('#torque').find('.spec'),
-        '$zeroToSixtyText': $('#zeroToSixty').find('.spec'),
-        '$transmissionText': $('#transmission').find('.spec'),
-        '$weightText': $('#weight').find('.spec'),
-        '$drivetrainText': $('#drivetrain').find('.spec'),
-        '$fuelEcoText': $('#fuelEco').find('.spec'),
-        '$msrpText': $('#msrp').find('.spec')
-    };
+    var specText = {
+        $engineText: $('#engine').find('.spec'),
+        $horsepowerText: $('#horsepower').find('.spec'),
+        $torqueText: $('#torque').find('.spec'),
+        $zeroToSixtyText: $('#zeroToSixty').find('.spec'),
+        $transmissionText: $('#transmission').find('.spec'),
+        $weightText: $('#weight').find('.spec'),
+        $drivetrainText: $('#drivetrain').find('.spec'),
+        $fuelEcoText: $('#fuelEco').find('.spec'),
+        $msrpText: $('#msrp').find('.spec')
+    }
 
+    // Init all text to default value.
+    for(var i=0; i<specText.length; i++) {
+        specText[i].text(notAvailable)
+    }
+        
     /*===== LOADING ====*/
     function startLoad(){
         $gridDiv.hide().fadeOut(100);
@@ -102,7 +110,6 @@ var helpers = (function(){
         history.pushState(content, null, '/');
         currentPage = 'specs';
 
-        var notAvailable = 'Not Available';
         var carName = [
             content.specs.year.year,
             content.specs.make.name,
@@ -110,28 +117,26 @@ var helpers = (function(){
             content.specs.trim
         ]
 
-        // Ternaries for vehicles too new/that Edmunds doesn't have data on.
-        var engineSize = content.specs.engine.size;
-        var engineConfig = content.specs.engine.configuration;
-        var engineCyl = content.specs.engine.cylinder;
-        var compressorType = content.specs.engine.compressorType ? content.specs.engine.compressorType : '';
-        var hp = content.specs.engine.horsepower ? content.specs.engine.horsepower : '';
-        var tq = content.specs.engine.torque ? content.specs.engine.torque : '';
-        var hpRPM = content.specs.engine.rpm ? content.specs.engine.rpm.horsepower : '';
-        var tqRPM = content.specs.engine.rpm ? content.specs.engine.rpm.torque : '';
-        var transmissionSpeeds = content.specs.transmission.numberOfSpeeds;
-        var transmissionType = content.specs.transmission.transmissionType;
-        var cityMPG = content.specs.MPG ? content.specs.MPG.city : '';
-        var highwayMPG = content.specs.MPG ? content.specs.MPG.highway : '';
-        var weight = '';
-        var zeroToSixty = '';
-        var drivetrain = content.specs.drivenWheels ? content.specs.drivenWheels : '';
-        var msrp = content.specs.price ? content.specs.price.baseMSRP : '';
+        $('#carName').text(carName.join(' '));
 
-        // Default values.
-        for(spec in specDivs){
-            specDivs[spec].text(notAvailable);
-        }
+        // Ternaries for vehicles too new/that Edmunds doesn't have data on.
+        var engineSize = content.specs.engine.size,
+            engineConfig = content.specs.engine.configuration,
+            engineCyl = content.specs.engine.cylinder,
+            compressorType = content.specs.engine.compressorType ? content.specs.engine.compressorType : '',
+            hp = content.specs.engine.horsepower ? content.specs.engine.horsepower : '',
+            tq = content.specs.engine.torque ? content.specs.engine.torque : '',
+            hpRPM = content.specs.engine.rpm ? content.specs.engine.rpm.horsepower : '',
+            tqRPM = content.specs.engine.rpm ? content.specs.engine.rpm.torque : '',
+            transmissionSpeeds = content.specs.transmission.numberOfSpeeds,
+            transmissionType = content.specs.transmission.transmissionType,
+            cityMPG = content.specs.MPG ? content.specs.MPG.city : '',
+            highwayMPG = content.specs.MPG ? content.specs.MPG.highway : '',
+            weight = '',
+            zeroToSixty = '',
+            drivetrain = content.specs.drivenWheels ? content.specs.drivenWheels : '',
+            msrp = content.specs.price ? content.specs.price.baseMSRP : '';
+
 
         // If the equipment is available for the car.;
         if(content.equipment){
@@ -145,11 +150,10 @@ var helpers = (function(){
             }
         }
 
-        // Display name of the car at top.
-        $('#carName').text(carName.join(' '));
+        /*====== CHECK/DISPLAY SPECS ======*/
 
         if(engineCyl){
-            specDivs.$engineText.text(
+            specText.$engineText.text(
                 engineSize + ' L '
                 + engineConfig + ' '
                 + engineCyl + ' '
@@ -158,40 +162,40 @@ var helpers = (function(){
         }
 
         if(hp){
-            specDivs.$horsepowerText.text(
+            specText.$horsepowerText.text(
                 hp + ' hp ' + ' @ '
                 + hpRPM + 'rpm'
             );
         }
 
         if(tq){
-            specDivs.$torqueText.text(
+            specText.$torqueText.text(
                 tq + ' lb-ft ' + ' @ '
                 + tqRPM + 'rpm'
             );
         }
 
         if(zeroToSixty){
-            specDivs.$zeroToSixtyText.text(zeroToSixty + ' Seconds');
+            specText.$zeroToSixtyText.text(zeroToSixty + ' Seconds');
         }
 
         if(transmissionSpeeds){
-            specDivs.$transmissionText.text(
+            specText.$transmissionText.text(
                 transmissionSpeeds + '-speed '
                 + transmissionType.toLowerCase().replace('_', ' ')
             );
         }
 
         if(weight){
-            specDivs.$weightText.text(weight + ' lbs');
+            specText.$weightText.text(weight + ' lbs');
         }
 
         if(drivetrain){
-            specDivs.$drivetrainText.text(drivetrain);
+            specText.$drivetrainText.text(drivetrain);
         }
 
         if(cityMPG){
-            specDivs.$fuelEcoText.text(
+            specText.$fuelEcoText.text(
                 cityMPG + ' City '
                 + highwayMPG + ' Highway'
             );
@@ -199,7 +203,7 @@ var helpers = (function(){
 
         if(msrp){
             // Money format.
-            specDivs.$msrpText.text(
+            specText.$msrpText.text(
                 '$'
                 + msrp.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,').replace('.00', '')
             );
