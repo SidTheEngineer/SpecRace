@@ -3,16 +3,16 @@
 
 $(function(){
 
-    var $makeButton = $('.makeButton');
-    var $makeGrid = $('#makeGrid');
-    var $modelGrid = $('#modelGrid');
-    var $yearGrid = $('#yearGrid');
-    var $trimGrid = $('#trimGrid');
-    var $specGrid = $('#specGrid');
-    var $selectedMake;
-    var $selectedModel;
-    var $selectedYear;
-    var $trimId;
+    var $makeButton = $('.makeButton'),
+        $makeGrid = $('#makeGrid'),
+        $modelGrid = $('#modelGrid'),
+        $yearGrid = $('#yearGrid'),
+        $trimGrid = $('#trimGrid'),
+        $specGrid = $('#specGrid'),
+        $selectedMake,
+        $selectedModel,
+        $selectedYear,
+        $trimId;
 
     $modelGrid.hide();
     $yearGrid.hide();
@@ -109,11 +109,13 @@ $(function(){
     }
 
     /*======== EVENTS =======*/
-    $('button').bind("touchstart", function(){
-        $(this).addClass("mobileActive");
-    });
-    $('button').bind("touchend", function(){
-        $(this).removeClass('mobileActive');
+    $('button').bind({
+        touchstart: function() {
+            $(this).addClass("mobileActive");
+        },
+        touchend: function() {
+            $(this).removeClass('mobileActive');
+        }
     });
     
     $makeButton.click(getModels);
@@ -121,32 +123,30 @@ $(function(){
     $yearGrid.on('click', '.yearButton', getTrims);
     $trimGrid.on('click', '.trimButton', getSpecs);
 
-    // When the back button is pressed ...
     window.onpopstate = function(event){
+        switch(currentPage) {
+            case 'specs':
+                $specGrid.hide();
+                $trimGrid.show();
+                currentPage = 'trims';
+                break;
 
-        if(currentPage == 'specs'){
+            case 'trims':
+                $trimGrid.hide();
+                $yearGrid.show();
+                currentPage = 'years';
+                break;
 
-            $specGrid.hide();
-            $trimGrid.show();
+            case 'years':
+                $yearGrid.hide();
+                $modelGrid.show();
+                currentPage = 'models';
+                break;
 
-            currentPage = 'trims';
-        }else if(currentPage == 'trims'){
-
-            $trimGrid.hide();
-            $yearGrid.show();
-
-            currentPage = 'years';
-        }else if(currentPage == 'years'){
-
-            $yearGrid.hide();
-            $modelGrid.show();
-
-            currentPage = 'models';
-        }else{
-            $modelGrid.hide();
-            $makeGrid.show();
-
-            currentPage = '';
+            default:
+                $modelGrid.hide();
+                $makeGrid.show();
+                currentPage = '';
         }
 
     };
