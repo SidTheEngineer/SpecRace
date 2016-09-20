@@ -1,5 +1,9 @@
-// This file is used fro button navigation on the app, it
+// This file is used for button navigation on the app, it
 // narrows the choices based on what is clicked.
+
+// Create universal "get" function that can switch on the event
+// target and get the models/years/trims/specs. That might clean up
+// this ugliness.
 
 $(function(){
 
