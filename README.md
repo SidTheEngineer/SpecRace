@@ -6,10 +6,8 @@ This was the first project that I completed as a learning experience and is not 
 #
 A mobile-friendly webapp that allows users to quickly and easily search for car specifications. Leverages the Edmunds Developer API to provide data on most cars for sale within the U.S. from 1990-Present.
 
-
-![Alt text](http://i.imgur.com/h9PrPvE.png)
-
-![Alt text](http://i.imgur.com/7lWvuvq.png)
+<img src="http://i.imgur.com/uSqHD2g.png" width="250" height="500" />
+<img src="http://i.imgur.com/yp1CSvn.png" width="250" height="500" />
 
 ## To Do
 - [ ] Clean up/refactor ugly JS.
